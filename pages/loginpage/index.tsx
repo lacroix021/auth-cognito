@@ -110,7 +110,7 @@ export default function LoginPage(ssr = true) {
                                     <Form className={styles.containerItems}>
 
                                         <div className={styles.inputCont}>
-                                            <label htmlFor="email">E-mail</label>
+                                            
                                             <Field
                                                 type="text"
                                                 id="email"
@@ -118,11 +118,8 @@ export default function LoginPage(ssr = true) {
                                                 placeholder=" email@email.com"
                                                 className={styles.input}
                                             />
-                                            {!errors.email ? <span className={styles.noError}></span> : <span className={styles.error}>{errors.email}</span>}
-
                                         </div>
                                         <div className={styles.inputMessageCont}>
-                                            <label htmlFor="password">Password</label>
                                             <Field
                                                 type="password"
                                                 id="password"
@@ -130,11 +127,25 @@ export default function LoginPage(ssr = true) {
                                                 placeholder="*************"
                                                 className={styles.input}
                                             />
-                                            {!errors.password ? <span className={styles.noError}></span> : <span className={styles.error}>{errors.password}</span>}
+                                        </div>
+                                        <div className={styles.checkbox}>
+                                            <Field
+                                                    type="checkbox"
+                                                    id="activar"
+                                                    name="checkbox"
+                                                    placeholder=""
+                                                    className={styles.box}
+                                                />
+                                            <label htmlFor="activar"><span>Remember Me</span></label>
                                         </div>
                                         <div className={styles.buttonForm}>
-                                            <button type="submit">Login</button>
-                                            {formSend ? <p className={styles.exito}>Formulario enviado con exito!</p> : <p>  </p>}
+                                            <button type="submit">LOGIN</button>
+                                        </div>
+                                        <div className={styles.forgot}>
+                                            <a href="#">Forgot your password?</a>
+                                        </div>
+                                        <div className={styles.register}>
+                                            dont have an account? <a href="#">Register</a>
                                         </div>
                                     </Form>
                                 )}
