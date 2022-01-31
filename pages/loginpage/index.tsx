@@ -156,7 +156,7 @@ export default function LoginPage(ssr = true) {
                                                 <Field
                                                     type="password"
                                                     id="password"
-                                                    name="password"
+                                                    name="Retype-password"
                                                     placeholder="confirm password"
                                                     className={styles.input}
                                                 />
