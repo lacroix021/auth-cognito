@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from "./styles.module.scss";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 
 export default function LoginPage(ssr = true) {
-    const [formSend, setFormSend] = useState(false)
+    const [formSend, setFormSend] = useState(false);
+    const [register, setRegister] = useState(false);
+
+    useEffect(() => {
+
+        console.log("este es el estado nuevo: " + register);
+    }, [register]);
 
 
     const services = [
@@ -34,6 +40,8 @@ export default function LoginPage(ssr = true) {
             slidesToSlide: 1 // optional, default to 1.
         }
     };
+
+
 
 
     return <div className={styles.authmain}>
@@ -73,9 +81,14 @@ export default function LoginPage(ssr = true) {
                 </div>
                 <div className={styles.col4}>
                     <div className={styles.card}>
-                        <div className={styles.header}>
+                        {!register ? <div className={styles.header}>
                             <p className={styles.lead}>Login to your Account</p>
                         </div>
+                            :
+                            <div className={styles.header}>
+                                <p className={styles.lead}>Create Account</p>
+                            </div>}
+
                         <div className={styles.body}>
                             <Formik
                                 initialValues={{
@@ -84,8 +97,6 @@ export default function LoginPage(ssr = true) {
                                 }}
                                 validate={(values) => {
                                     let errores: any = {};
-
-
                                     //validacion mail
                                     if (!values.email) {
                                         errores.email = "Put Your Email";
@@ -108,45 +119,94 @@ export default function LoginPage(ssr = true) {
                             >
                                 {({ errors }) => (
                                     <Form className={styles.containerItems}>
+                                        {!register ?
+                                            <div>
+                                                <Field
+                                                    type="text"
+                                                    id="email"
+                                                    name="email"
+                                                    placeholder={!errors.email ? "email@email.com" : errors.email}
+                                                    className={styles.input}
+                                                />
+                                            </div>
+                                            :
+                                            <div>
+                                                <Field
+                                                    type="text"
+                                                    id="username"
+                                                    name="username"
+                                                    placeholder="username"
+                                                    className={styles.input}
+                                                />
+                                            </div>}
 
-                                        <div className={styles.inputCont}>
-                                            
-                                            <Field
-                                                type="text"
-                                                id="email"
-                                                name="email"
-                                                placeholder=" email@email.com"
-                                                className={styles.input}
-                                            />
-                                        </div>
-                                        <div className={styles.inputMessageCont}>
+                                        <div >
                                             <Field
                                                 type="password"
                                                 id="password"
                                                 name="password"
-                                                placeholder="*************"
+                                                placeholder={!errors.password ? "password" : errors.password}
                                                 className={styles.input}
                                             />
                                         </div>
-                                        <div className={styles.checkbox}>
-                                            <Field
+                                        {!register ?
+                                            null
+                                            :
+                                            <div >
+                                                <Field
+                                                    type="password"
+                                                    id="password"
+                                                    name="password"
+                                                    placeholder="confirm password"
+                                                    className={styles.input}
+                                                />
+                                            </div>}
+                                        {!register ?
+                                            null
+                                            :
+                                            <div>
+                                                <Field
+                                                    type="text"
+                                                    id="email"
+                                                    name="email"
+                                                    placeholder="email@email.com"
+                                                    className={styles.input}
+                                                />
+                                            </div>}
+
+                                        {!register ?
+                                            <div className={styles.checkbox}>
+                                                <Field
                                                     type="checkbox"
                                                     id="activar"
                                                     name="checkbox"
                                                     placeholder=""
                                                     className={styles.box}
                                                 />
-                                            <label htmlFor="activar"><span>Remember Me</span></label>
-                                        </div>
-                                        <div className={styles.buttonForm}>
-                                            <button type="submit">LOGIN</button>
-                                        </div>
-                                        <div className={styles.forgot}>
-                                            <a href="#">Forgot your password?</a>
-                                        </div>
-                                        <div className={styles.register}>
-                                            dont have an account? <a href="#">Register</a>
-                                        </div>
+                                                <label htmlFor="activar"><span>Remember Me</span></label>
+                                            </div>
+                                            :
+                                            null}
+                                        {!register ?
+                                            <div className={styles.buttonForm}>
+                                                <button type="submit">LOGIN</button>
+                                            </div>
+                                            :
+                                            <div className={styles.buttonForm}>
+                                                <button type="submit">CREATE ACCOUNT</button>
+                                            </div>}
+                                        {!register ?
+                                            <div className={styles.forgot}>
+                                                <a href="#">Forgot your password?</a>
+                                            </div> : null}
+                                        {!register ?
+                                            <div className={styles.register}>
+                                                dont have an account? <a onClick={() => setRegister(true)}>Register</a>
+                                            </div>
+                                            :
+                                            <div className={styles.register}>
+                                                have an account? <a onClick={() => setRegister(false)}>Login</a>
+                                            </div>}
                                     </Form>
                                 )}
                             </Formik>
@@ -155,6 +215,6 @@ export default function LoginPage(ssr = true) {
                 </div>
             </div>
         </div>
-
     </div>
 }
+
